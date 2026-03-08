@@ -13,7 +13,7 @@ export function StoryImage() {
       src="/images/about/story.png"
       alt="Ermir Zeneli"
       fill
-      className="object-cover"
+      className="object-contain"
       sizes="(max-width: 768px) 100vw,  min(896px, 90vw)"
       onError={() => setFailed(true)}
     />

@@ -31,10 +31,12 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* Right: image */}
-        <figure className="relative min-h-0 flex-1 overflow-hidden bg-background md:min-h-[50vh]">
-          <StoryImage />
-        </figure>
+        {/* Right: image — constrained size so image scales down and isn’t cropped */}
+        <div className="flex min-h-0 items-center justify-center md:justify-end">
+          <figure className="relative aspect-[3/4] w-full max-w-sm overflow-hidden bg-background md:max-w-md">
+            <StoryImage />
+          </figure>
+        </div>
       </div>
     </main>
   );
