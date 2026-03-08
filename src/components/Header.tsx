@@ -21,7 +21,7 @@ export function Header() {
       {!isHome && (
         <Link
           href="/"
-          className="font-display text-base tracking-[0.25em] uppercase text-foreground transition-opacity duration-500 ease-in hover:opacity-80 focus:opacity-80 md:text-lg"
+          className="font-display text-lg tracking-[0.25em] uppercase text-foreground transition-opacity duration-500 ease-in hover:opacity-80 focus:opacity-80 md:text-xl lg:text-2xl"
           aria-label="Ermir Zeneli — Home"
         >
           Ermir Zeneli
