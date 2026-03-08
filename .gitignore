@@ -1,0 +1,31 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Build
+.next
+out
+build
+dist
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Debug
+npm-debug.log*
+.yarn-integrity
+
+# IDE
+.idea
+.vscode
+*.swp
+.DS_Store
+
+# Vercel
+.vercel
+
+# TypeScript
+next-env.d.ts
