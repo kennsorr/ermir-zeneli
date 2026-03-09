@@ -10,4 +10,4 @@ export const PAGE_CONTENT_CLASS_NARROW =
   "mx-auto w-full max-w-5xl px-6 md:px-8 lg:px-12";
 
 export const PAGE_TITLE_CLASS =
-  "font-display text-5xl tracking-tight md:text-6xl";
+  "font-display text-[2.5rem] tracking-tight";

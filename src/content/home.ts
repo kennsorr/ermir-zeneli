@@ -27,6 +27,8 @@ export const homePanels = [
     imageHover: "/images/hero/panel-3-hover.png",
     /** Apply grayscale via CSS so this panel displays B&W. */
     grayscaleFilter: true,
+    /** Bypass Next.js image optimization so PNG loads reliably on mobile refresh. */
+    unoptimizedImage: true,
   },
 ] as const;
 

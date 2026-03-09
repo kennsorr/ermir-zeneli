@@ -52,6 +52,12 @@ export function TriptychHero() {
         />
       ))}
 
+      {/* Bottom gradient: black to transparent over ~25px so panel labels stay readable */}
+      <div
+        className="pointer-events-none absolute bottom-0 left-0 right-0 z-20 h-[50px] bg-gradient-to-t from-black to-transparent"
+        aria-hidden
+      />
+
       {/* Name: first thing on screen — fades in from dark (ease-in), grows to full size; black veil fades out to reveal */}
       <motion.div
         className="pointer-events-none absolute inset-0 z-40 flex items-center justify-center"

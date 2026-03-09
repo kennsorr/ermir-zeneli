@@ -17,7 +17,7 @@ export default function AboutPage() {
             <h1 className={PAGE_TITLE_CLASS}>
               Story
             </h1>
-            <div className="mt-[70px] space-y-3 font-sans text-sm leading-relaxed text-foreground-muted md:space-y-4 md:text-base lg:text-lg">
+            <div className="mt-[35px] space-y-3 font-sans text-sm leading-relaxed text-foreground-muted md:space-y-4 md:text-base lg:text-lg">
               <p>
                 Ermir Zeneli grew up in Albania. He started modeling at 19, when
                 he moved to China—first to Chongqing—and began building his career.

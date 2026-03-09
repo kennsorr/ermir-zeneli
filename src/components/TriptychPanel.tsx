@@ -22,8 +22,8 @@ type TriptychPanelProps = HomePanel & {
   loadProgress?: MotionValue<number>;
   panelIndex?: number;
   initialRevealDirection?: "top" | "bottom";
-  /** Hover/line animation only runs after load progress passes this (e.g. when name animation is done). */
   nameAnimationEndProgress?: number;
+  unoptimizedImage?: boolean;
 };
 
 export function TriptychPanel({
@@ -38,6 +38,7 @@ export function TriptychPanel({
   panelIndex = 0,
   initialRevealDirection = "top",
   nameAnimationEndProgress = 0,
+  unoptimizedImage = false,
 }: TriptychPanelProps) {
   const reduceMotion = useReducedMotion();
   const [isHovered, setIsHovered] = useState(false);
@@ -167,6 +168,7 @@ export function TriptychPanel({
           fill
           sizes="33vw"
           className="object-cover"
+          unoptimized={unoptimizedImage}
           style={{
             ...(panelIndex === 0 && { objectPosition: "center bottom" }),
             filter:
@@ -196,6 +198,7 @@ export function TriptychPanel({
             fill
             sizes="33vw"
             className="object-cover"
+            unoptimized={unoptimizedImage}
             style={{
               ...(panelIndex === 0 && { objectPosition: "center bottom" }),
               filter: grayscaleFilter

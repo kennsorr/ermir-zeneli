@@ -15,19 +15,26 @@ export function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 flex px-6 py-5 md:px-8 ${isHome ? "flex-row items-center justify-end" : "flex-col gap-4 items-center md:flex-row md:items-center md:justify-between"}`}
+      className={`fixed top-0 left-0 right-0 z-50 px-6 py-5 md:px-8 ${isHome ? "hidden md:flex flex-row items-center justify-end" : "flex flex-col gap-4 items-center md:flex-row md:items-center md:justify-between"}`}
       role="banner"
     >
+      {/* Gradient behind nav (non-home) so nav stays visible when content scrolls under it */}
+      {!isHome && (
+        <div
+          className="pointer-events-none absolute inset-x-0 top-0 h-[7rem] bg-[linear-gradient(to_bottom,black_0%,#000000d4_50%,transparent_100%)]"
+          aria-hidden
+        />
+      )}
       {!isHome && (
         <Link
           href="/"
-          className="font-display text-lg tracking-[0.25em] uppercase text-foreground transition-opacity duration-500 ease-in hover:opacity-80 focus:opacity-80 md:text-xl lg:text-2xl"
+          className="relative z-10 font-display text-lg tracking-[0.25em] uppercase text-foreground transition-opacity duration-500 ease-in hover:opacity-80 focus:opacity-80 md:text-xl lg:text-2xl"
           aria-label="Ermir Zeneli — Home"
         >
           Ermir Zeneli
         </Link>
       )}
-      <nav aria-label="Main navigation" className="flex w-full items-center justify-between md:w-auto md:justify-start md:gap-8">
+      <nav aria-label="Main navigation" className="relative z-10 flex w-full items-center justify-between md:w-auto md:justify-start md:gap-8">
         {navItems.map(({ label, href }) => (
           <Link
             key={href}
