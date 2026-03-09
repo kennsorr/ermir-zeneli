@@ -15,7 +15,7 @@ export function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 flex items-center px-6 py-5 md:px-8 ${isHome ? "justify-end" : "justify-between"}`}
+      className={`fixed top-0 left-0 right-0 z-50 flex px-6 py-5 md:px-8 ${isHome ? "flex-row items-center justify-end" : "flex-col gap-4 items-center md:flex-row md:items-center md:justify-between"}`}
       role="banner"
     >
       {!isHome && (
@@ -27,7 +27,7 @@ export function Header() {
           Ermir Zeneli
         </Link>
       )}
-      <nav aria-label="Main navigation" className="flex items-center gap-8">
+      <nav aria-label="Main navigation" className="flex w-full items-center justify-between md:w-auto md:justify-start md:gap-8">
         {navItems.map(({ label, href }) => (
           <Link
             key={href}

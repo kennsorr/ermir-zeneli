@@ -62,9 +62,9 @@ export function TriptychHero() {
         aria-hidden
       >
         <span className="relative flex flex-col text-center font-display font-normal uppercase tracking-[0.12em] text-[clamp(2rem,14vw,4rem)] md:flex-row md:whitespace-nowrap md:text-[clamp(2.5rem,10vw,8rem)]">
-          <span className="text-foreground/95 [text-shadow:0_1px_3px_rgba(0,0,0,0.4),0_2px_8px_rgba(0,0,0,0.25)]">
-            <span className="md:inline">Ermir</span>
-            <span className="md:ml-[0.12em] md:inline">Zeneli</span>
+          <span className="flex flex-col text-center text-foreground/95 md:flex-row [text-shadow:0_1px_3px_rgba(0,0,0,0.4),0_2px_8px_rgba(0,0,0,0.25)]">
+            <span>Ermir</span>
+            <span className="md:ml-[0.12em]">Zeneli</span>
           </span>
           <motion.span
             className="absolute inset-0 flex flex-col items-center justify-center text-center font-display font-normal uppercase tracking-[0.12em] text-black md:flex-row md:whitespace-nowrap [font-size:inherit]"

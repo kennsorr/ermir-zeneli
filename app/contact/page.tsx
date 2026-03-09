@@ -1,3 +1,5 @@
+import { PAGE_MAIN_CLASS, PAGE_CONTENT_CLASS_NARROW, PAGE_TITLE_CLASS } from "@/lib/layout";
+
 export const metadata = {
   title: "Contact",
   description: "Get in touch with Ermir Zeneli — Instagram, email, WhatsApp.",
@@ -23,12 +25,12 @@ export default function ContactPage() {
   ] as const;
 
   return (
-    <main className="min-h-screen pt-24 pb-16">
-      <div className="mx-auto max-w-5xl px-6 md:px-8">
-        <h1 className="font-display text-5xl tracking-tight md:text-6xl">
+    <main className={PAGE_MAIN_CLASS}>
+      <div className={PAGE_CONTENT_CLASS_NARROW}>
+        <h1 className={PAGE_TITLE_CLASS}>
           Contact
         </h1>
-        <ul className="mt-12 flex flex-col gap-8 font-sans md:gap-10">
+        <ul className="mt-8 flex flex-col gap-8 font-sans md:gap-10">
           {links.map(({ label, handle, href }) => (
             <li key={label}>
               <a

@@ -1,5 +1,6 @@
 import { galleryItems, instagramProfileUrl } from "@/content/gallery";
 import { GalleryItem } from "@/components/GalleryItem";
+import { PAGE_MAIN_CLASS, PAGE_CONTENT_CLASS, PAGE_TITLE_CLASS } from "@/lib/layout";
 
 export const metadata = {
   title: "Gallery",
@@ -8,9 +9,9 @@ export const metadata = {
 
 export default function GalleryPage() {
   return (
-    <main className="min-h-screen pt-24 pb-16">
-      <div className="mx-auto max-w-6xl px-6 md:px-8">
-        <h1 className="font-display text-5xl tracking-tight md:text-6xl">
+    <main className={PAGE_MAIN_CLASS}>
+      <div className={PAGE_CONTENT_CLASS}>
+        <h1 className={PAGE_TITLE_CLASS}>
           Gallery
         </h1>
         <p className="mt-6 font-sans text-base tracking-wide text-foreground-muted md:text-lg">

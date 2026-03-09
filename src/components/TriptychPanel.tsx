@@ -132,7 +132,7 @@ export function TriptychPanel({
         style={{ opacity: reduceMotion ? 1 : labelOpacity }}
       >
         <motion.span
-          className="block font-sans tracking-[0.3em] uppercase text-foreground/90 [text-shadow:0_1px_2px_rgba(0,0,0,0.35)]"
+          className="block font-sans tracking-widest uppercase text-foreground/90 [text-shadow:0_1px_2px_rgba(0,0,0,0.35)]"
           animate={{
             fontSize: isHovered ? "1rem" : "0.875rem",
           }}
