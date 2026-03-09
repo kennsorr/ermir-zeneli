@@ -1,11 +1,16 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import dynamic from "next/dynamic";
 import { Playfair_Display, IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { Analytics } from "@/components/Analytics";
 import { GA_MEASUREMENT_ID } from "@/lib/gtag";
+
+const Analytics = dynamic(
+  () => import("@/components/Analytics").then((m) => ({ default: m.Analytics })),
+  { ssr: false }
+);
 
 const display = Playfair_Display({
   subsets: ["latin"],
