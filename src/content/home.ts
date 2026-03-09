@@ -10,6 +10,7 @@ export const homePanels = [
     href: "/gallery",
     image: "/images/hero/panel-1.jpg",
     imageHover: "/images/hero/panel-1-hover.jpg",
+    grayscaleFilter: true,
   },
   {
     id: "story",
@@ -22,9 +23,9 @@ export const homePanels = [
     id: "contact",
     label: "Contact",
     href: "/contact",
-    image: "/images/hero/panel-3.jpg",
-    imageHover: "/images/hero/panel-3-hover.jpg",
-    /** Apply grayscale via CSS so this panel (first image) displays B&W. */
+    image: "/images/hero/panel-3.png",
+    imageHover: "/images/hero/panel-3-hover.png",
+    /** Apply grayscale via CSS so this panel displays B&W. */
     grayscaleFilter: true,
   },
 ] as const;

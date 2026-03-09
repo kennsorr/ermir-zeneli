@@ -17,7 +17,7 @@ export default function AboutPage() {
             <h1 className={PAGE_TITLE_CLASS}>
               Story
             </h1>
-            <div className="mt-6 space-y-3 font-sans text-sm leading-relaxed text-foreground-muted md:space-y-4 md:text-base lg:text-lg">
+            <div className="mt-[70px] space-y-3 font-sans text-sm leading-relaxed text-foreground-muted md:space-y-4 md:text-base lg:text-lg">
               <p>
                 Ermir Zeneli grew up in Albania. He started modeling at 19, when
                 he moved to China—first to Chongqing—and began building his career.
@@ -35,7 +35,7 @@ export default function AboutPage() {
 
           {/* Right: image — constrained size so image scales down and isn’t cropped */}
           <div className="flex min-h-0 items-center justify-center md:justify-end">
-            <figure className="relative aspect-[3/4] w-full max-w-sm overflow-hidden bg-background md:max-w-md">
+            <figure className="relative aspect-[3/4] w-full max-w-[280px] overflow-hidden bg-background md:max-w-sm">
               <StoryImage />
             </figure>
           </div>

@@ -27,11 +27,11 @@ export function TriptychHero() {
 
   const nameOpacity = useTransform(loadProgress, (v) => {
     const t = Math.min(1, v / NAME_PROGRESS_END);
-    return t * t; // ease-in (quadratic): slow start, faster finish
+    return t * t * t * t; // quartic ease-in: very soft start, clear hard stop at end
   });
   const nameScale = useTransform(loadProgress, (v) => {
     const t = Math.min(1, v / NAME_PROGRESS_END);
-    return 0.88 + 0.12 * (t * t); // same ease-in for scale
+    return 0.88 + 0.12 * (t * t * t * t); // same curve for scale
   });
   /** Black layer over the text fades out so the name appears to emerge from the dark */
   const darkVeilOpacity = useTransform(loadProgress, [0, NAME_PROGRESS_END], [1, 0]);

@@ -30,7 +30,7 @@ export default function ContactPage() {
         <h1 className={PAGE_TITLE_CLASS}>
           Contact
         </h1>
-        <ul className="mt-8 flex flex-col gap-8 font-sans md:gap-10">
+        <ul className="mt-[62px] flex flex-col gap-8 font-sans md:gap-10">
           {links.map(({ label, handle, href }) => (
             <li key={label}>
               <a

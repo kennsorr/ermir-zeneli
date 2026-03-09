@@ -9,11 +9,11 @@ import type { HomePanel } from "@/content/home";
 const LINE_DURATION = 0.7;
 const LINE_EASE = [0.22, 0.61, 0.36, 1] as const;
 
-/** Panel reveals start only after the name animation (progress > NAME_PROGRESS_END). */
+/** Panel reveals start after name animation + ~0.3s pause (progress 0.46+). */
 const LOAD_REVEAL_RANGES: [number, number][] = [
-  [0.4, 0.65],
-  [0.45, 0.75],
-  [0.5, 0.85],
+  [0.46, 0.71],
+  [0.51, 0.81],
+  [0.56, 0.91],
 ];
 
 type TriptychPanelProps = HomePanel & {
@@ -51,7 +51,9 @@ export function TriptychPanel({
   const lineTop = useTransform(progress, (v) => `${v * 100}%`);
   const lineOpacity = useTransform(progress, [0, 0.02], [0, 1]); // hidden at top when not animating
   const hoverClipPath = useTransform(progress, (v) => `inset(${(1 - v) * 100}% 0 0 0)`);
-  const scale = useTransform(progress, [0, 1], [1, 1.03]);
+  /** First panel: base zoom 1.2; others: 1. Hover adds slight scale on top. */
+  const baseZoom = panelIndex === 0 ? 1.2 : 1;
+  const scale = useTransform(progress, [0, 1], [baseZoom, baseZoom * 1.03]);
 
   const oneMotion = useMotionValue(1);
   const progressForReveal = loadProgress ?? oneMotion;
@@ -153,19 +155,29 @@ export function TriptychPanel({
 
       {/* Image block — always visible; black overlay on top does the reveal */}
       <motion.div className="absolute inset-0 overflow-hidden">
-      {/* Image container: scale subtly when revealed */}
+      {/* Image container: scale subtly when revealed; first panel shifted up 63px so full bottom is visible */}
       <motion.div
         className="absolute inset-0 origin-center"
-        style={{ scale }}
+        style={{ scale, y: panelIndex === 0 ? -63 : 0 }}
       >
-        {/* Default image — always visible underneath */}
+        {/* Default image — always visible underneath; first panel slightly brighter to reduce darkness; first panel anchored to bottom so bottom of image is visible */}
         <Image
           src={defaultSrc}
           alt=""
           fill
           sizes="33vw"
           className="object-cover"
-          style={{ filter: grayscaleFilter ? "grayscale(1) contrast(1)" : "contrast(1)" }}
+          style={{
+            ...(panelIndex === 0 && { objectPosition: "center bottom" }),
+            filter:
+              panelIndex === 0
+                ? grayscaleFilter
+                  ? "grayscale(1) contrast(1) brightness(1.1)"
+                  : "contrast(1) brightness(1.1)"
+                : grayscaleFilter
+                  ? "grayscale(1) contrast(1)"
+                  : "contrast(1)",
+          }}
           onError={() => setImageError(true)}
           priority
         />
@@ -185,6 +197,7 @@ export function TriptychPanel({
             sizes="33vw"
             className="object-cover"
             style={{
+              ...(panelIndex === 0 && { objectPosition: "center bottom" }),
               filter: grayscaleFilter
                 ? "grayscale(1) contrast(1.12) brightness(1.06)"
                 : "contrast(1.12) brightness(1.06)",
@@ -211,7 +224,7 @@ export function TriptychPanel({
         aria-hidden
       >
         <motion.div
-          className="absolute inset-0 bg-black/45"
+          className={`absolute inset-0 ${panelIndex === 0 ? "bg-black/35" : "bg-black/45"}`}
           initial={false}
           animate={{ opacity: isHovered ? 0 : 1 }}
           transition={{ duration: 0.35, ease: "easeOut" }}
