@@ -52,7 +52,7 @@ export function TriptychHero() {
 
   return (
     <section
-      className="relative grid h-[100dvh] w-full grid-cols-3 bg-black"
+      className="relative grid h-[var(--app-vh,100dvh)] w-full grid-cols-3 bg-black"
       aria-label="Home hero — Portfolio, Story, Contact"
     >
       {homePanels.map((panel, index) => (
