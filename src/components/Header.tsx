@@ -21,7 +21,7 @@ export function Header() {
       {/* Gradient behind nav (non-home) so nav stays visible when content scrolls under it */}
       {!isHome && (
         <div
-          className="pointer-events-none absolute inset-x-0 top-0 h-[7rem] bg-[linear-gradient(to_bottom,black_0%,#000000d4_50%,transparent_100%)]"
+          className="pointer-events-none absolute inset-x-0 top-0 h-[9rem] bg-gradient-to-b from-black via-black/85 to-transparent md:h-[7rem]"
           aria-hidden
         />
       )}
