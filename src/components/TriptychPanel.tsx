@@ -230,11 +230,21 @@ export function TriptychPanel({
         </div>
       </motion.div>
 
-      {/* Black overlay — slides down (left/right panels) or up (center) to reveal image; hidden when no load sequence */}
+      {/* Black overlay — extends past edges so gradient starts hidden; leading edge has tight gradient for soft reveal */}
       {!reduceMotion && loadProgress && (
         <motion.div
-          className="pointer-events-none absolute inset-0 z-[5] bg-black"
-          style={{ transform: overlayTranslate }}
+          className={`pointer-events-none absolute left-0 right-0 z-[5] ${
+            initialRevealDirection === "top"
+              ? "-top-[15%] bottom-0"
+              : "top-0 -bottom-[15%]"
+          }`}
+          style={{
+            transform: overlayTranslate,
+            background:
+              initialRevealDirection === "top"
+                ? "linear-gradient(to bottom, transparent 0%, #000 6%, #000 100%)"
+                : "linear-gradient(to bottom, #000 0%, #000 94%, transparent 100%)",
+          }}
           aria-hidden
         />
       )}
