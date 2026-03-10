@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useCallback, useState, useEffect, useRef } from "react";
 import { motion, useMotionValue, useTransform, animate, useReducedMotion, type MotionValue } from "framer-motion";
 import type { HomePanel } from "@/content/home";
 
@@ -40,10 +41,12 @@ export function TriptychPanel({
   nameAnimationEndProgress = 0,
   unoptimizedImage = false,
 }: TriptychPanelProps) {
+  const router = useRouter();
   const reduceMotion = useReducedMotion();
   const [isHovered, setIsHovered] = useState(false);
   const [imageError, setImageError] = useState(false);
   const [hoverImageError, setHoverImageError] = useState(false);
+  const touchNavigateScheduled = useRef(false);
 
   const defaultSrc = imageError ? fallbackSrc : image;
   const hoverSrc = hoverImageError ? fallbackSrc : imageHover;
@@ -100,11 +103,14 @@ export function TriptychPanel({
   /* When reduced motion, second tap = navigate (progress stays at 1 so we don't prevent). */
   const isRevealed = reduceMotion ? isHovered : true;
 
-  /* Only intercept mouse: first click = reveal, second = navigate. Touch/pen always navigate on first tap. */
+  /* Only intercept mouse: first click = reveal, second = navigate. Touch: animate then navigate after duration. */
   const handleClick = useCallback(
     (e: React.MouseEvent) => {
+      if ((e.nativeEvent as PointerEvent).pointerType === "touch") {
+        e.preventDefault();
+        return;
+      }
       if (progress.get() === 1) return;
-      if ((e.nativeEvent as PointerEvent).pointerType !== "mouse") return; /* touch/pen: let link navigate */
       e.preventDefault();
       triggerHoverState();
     },
@@ -113,11 +119,17 @@ export function TriptychPanel({
 
   const handleTouchEnd = useCallback(
     (e: React.TouchEvent) => {
-      /* Only trigger reveal; do not preventDefault so the link navigates on first tap */
       if (progress.get() === 1) return;
+      e.preventDefault();
       triggerHoverState();
+      touchNavigateScheduled.current = true;
+      const ms = reduceMotion ? 400 : LINE_DURATION * 1000 + 80;
+      setTimeout(() => {
+        router.push(href);
+        touchNavigateScheduled.current = false;
+      }, ms);
     },
-    [progress, triggerHoverState]
+    [progress, triggerHoverState, router, href, reduceMotion]
   );
 
   return (
