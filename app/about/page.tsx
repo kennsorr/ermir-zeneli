@@ -11,7 +11,7 @@ export default function AboutPage() {
   return (
     <main className={PAGE_MAIN_CLASS}>
       <div className={PAGE_CONTENT_CLASS}>
-        <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-[1fr_1.1fr] md:gap-12">
+        <div className="grid w-full grid-cols-1 gap-10 md:grid-cols-[1fr_1.1fr] md:gap-12">
           {/* Left: text */}
           <div className="flex min-h-0 flex-col overflow-hidden">
             <h1 className={PAGE_TITLE_CLASS}>
@@ -33,11 +33,11 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* Right: image — constrained size so image scales down and isn’t cropped */}
+          {/* Right: image — 3D tilt card with drop shadow */}
           <div className="flex min-h-0 items-center justify-center md:justify-end">
-            <figure className="relative aspect-[3/4] w-full max-w-[280px] overflow-hidden bg-background md:max-w-sm">
+            <div className="w-full max-w-[280px] md:max-w-sm" style={{ perspective: "900px" }}>
               <StoryImage />
-            </figure>
+            </div>
           </div>
         </div>
       </div>
