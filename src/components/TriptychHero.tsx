@@ -6,8 +6,8 @@ import { TriptychPanel } from "./TriptychPanel";
 import { homePanels } from "@/content/home";
 
 const LOAD_DURATION = 5;
-/** Name fades in and grows over the first ~2s (progress 0 → 0.4). */
-const NAME_PROGRESS_END = 0.4;
+/** Name fades in over progress 0 → 0.55 (~2.75s) — longer range so the ease-out is very gradual. */
+const NAME_PROGRESS_END = 0.55;
 
 export function TriptychHero() {
   const reduceMotion = useReducedMotion();
@@ -27,14 +27,28 @@ export function TriptychHero() {
 
   const nameOpacity = useTransform(loadProgress, (v) => {
     const t = Math.min(1, v / NAME_PROGRESS_END);
-    return t * t * t * t; // quartic ease-in: very soft start, clear hard stop at end
+    // Smooth ease-in-out: slow start, accelerates, then decelerates so gently
+    // the moment it reaches full opacity is imperceptible.
+    const ease = t < 0.5
+      ? 8 * t * t * t * t
+      : 1 - Math.pow(-2 * t + 2, 4) / 2;
+    return ease;
   });
   const nameScale = useTransform(loadProgress, (v) => {
     const t = Math.min(1, v / NAME_PROGRESS_END);
-    return 0.88 + 0.12 * (t * t * t * t); // same curve for scale
+    const ease = t < 0.5
+      ? 8 * t * t * t * t
+      : 1 - Math.pow(-2 * t + 2, 4) / 2;
+    return 0.88 + 0.12 * ease;
   });
-  /** Black layer over the text fades out so the name appears to emerge from the dark */
-  const darkVeilOpacity = useTransform(loadProgress, [0, NAME_PROGRESS_END], [1, 0]);
+  /** Black layer over the text fades out — uses same extended range and gentle ease-out */
+  const darkVeilOpacity = useTransform(loadProgress, (v) => {
+    const t = Math.min(1, v / NAME_PROGRESS_END);
+    const ease = t < 0.5
+      ? 8 * t * t * t * t
+      : 1 - Math.pow(-2 * t + 2, 4) / 2;
+    return 1 - ease;
+  });
 
   return (
     <section
