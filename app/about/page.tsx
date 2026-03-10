@@ -1,4 +1,5 @@
 import { StoryImage } from "@/components/StoryImage";
+import { Measurements } from "@/components/Measurements";
 import { PAGE_MAIN_CLASS, PAGE_CONTENT_CLASS, PAGE_TITLE_CLASS } from "@/lib/layout";
 
 export const metadata = {
@@ -31,6 +32,7 @@ export default function AboutPage() {
                 front of the camera.
               </p>
             </div>
+            <Measurements />
           </div>
 
           {/* Right: image — 3D tilt card with drop shadow */}
