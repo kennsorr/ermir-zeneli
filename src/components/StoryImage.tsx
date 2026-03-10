@@ -148,30 +148,27 @@ export function StoryImage() {
 
   useEffect(() => {
     let lastScrollY = window.scrollY;
+    let lastTouchY: number | null = null;
     let rafId: number;
     let idleTimeout: ReturnType<typeof setTimeout>;
 
-    const handleScroll = () => {
-      cancelAnimationFrame(rafId);
+    const applyScrollTilt = (delta: number) => {
+      if (isHovering.current) return;
+      const tilt = Math.max(-18, Math.min(18, delta * 1.2));
+      scrollTiltX.set(tilt);
+
+      const atBottom =
+        window.innerHeight + window.scrollY >= document.body.scrollHeight - 10;
+      if (atBottom) {
+        animate(scrollTiltX, -6, { type: "spring", ...SPRING_TRACK });
+        setTimeout(() => {
+          animate(scrollTiltX, 0, { type: "spring", ...SPRING_RETURN });
+        }, 250);
+      }
+    };
+
+    const scheduleIdle = () => {
       clearTimeout(idleTimeout);
-
-      rafId = requestAnimationFrame(() => {
-        if (isHovering.current) return;
-        const delta = window.scrollY - lastScrollY;
-        lastScrollY = window.scrollY;
-        const tilt = Math.max(-12, Math.min(12, delta * 0.6));
-        scrollTiltX.set(tilt);
-
-        const atBottom =
-          window.innerHeight + window.scrollY >= document.body.scrollHeight - 10;
-        if (atBottom) {
-          animate(scrollTiltX, -4, { type: "spring", ...SPRING_TRACK });
-          setTimeout(() => {
-            animate(scrollTiltX, 0, { type: "spring", ...SPRING_RETURN });
-          }, 250);
-        }
-      });
-
       idleTimeout = setTimeout(() => {
         if (!isHovering.current) {
           animate(scrollTiltX, 0, { type: "spring", ...SPRING_RETURN });
@@ -179,9 +176,44 @@ export function StoryImage() {
       }, 150);
     };
 
+    const handleScroll = () => {
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        const delta = window.scrollY - lastScrollY;
+        lastScrollY = window.scrollY;
+        applyScrollTilt(delta);
+      });
+      scheduleIdle();
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      const touchY = e.touches[0].clientY;
+      if (lastTouchY !== null) {
+        const delta = lastTouchY - touchY;
+        applyScrollTilt(delta);
+        scheduleIdle();
+      }
+      lastTouchY = touchY;
+    };
+
+    const handleTouchStart = (e: TouchEvent) => {
+      lastTouchY = e.touches[0].clientY;
+    };
+
+    const handleTouchEnd = () => {
+      lastTouchY = null;
+      scheduleIdle();
+    };
+
     window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("touchstart", handleTouchStart, { passive: true });
+    window.addEventListener("touchmove", handleTouchMove, { passive: true });
+    window.addEventListener("touchend", handleTouchEnd, { passive: true });
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("touchend", handleTouchEnd);
       cancelAnimationFrame(rafId);
       clearTimeout(idleTimeout);
     };
