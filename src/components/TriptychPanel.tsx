@@ -47,6 +47,8 @@ export function TriptychPanel({
   const [imageError, setImageError] = useState(false);
   const [hoverImageError, setHoverImageError] = useState(false);
   const touchNavigateScheduled = useRef(false);
+  const touchStartPos = useRef<{ x: number; y: number } | null>(null);
+  const SWIPE_THRESHOLD = 12;
 
   const defaultSrc = imageError ? fallbackSrc : image;
   const hoverSrc = hoverImageError ? fallbackSrc : imageHover;
@@ -117,9 +119,25 @@ export function TriptychPanel({
     [progress, triggerHoverState]
   );
 
+  const handleTouchStart = useCallback(
+    (e: React.TouchEvent) => {
+      const touch = e.touches[0];
+      touchStartPos.current = { x: touch.clientX, y: touch.clientY };
+    },
+    []
+  );
+
   const handleTouchEnd = useCallback(
     (e: React.TouchEvent) => {
       if (progress.get() === 1) return;
+
+      const touch = e.changedTouches[0];
+      if (touchStartPos.current) {
+        const dx = Math.abs(touch.clientX - touchStartPos.current.x);
+        const dy = Math.abs(touch.clientY - touchStartPos.current.y);
+        if (dx > SWIPE_THRESHOLD || dy > SWIPE_THRESHOLD) return;
+      }
+
       e.preventDefault();
       triggerHoverState();
       touchNavigateScheduled.current = true;
@@ -139,6 +157,7 @@ export function TriptychPanel({
       onMouseEnter={triggerHoverState}
       onMouseLeave={clearHoverState}
       onClick={handleClick}
+      onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
       aria-label={`${label} — go to ${href}`}
     >
