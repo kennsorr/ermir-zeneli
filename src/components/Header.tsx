@@ -35,19 +35,28 @@ export function Header() {
         </Link>
       )}
       <nav aria-label="Main navigation" className="relative z-10 flex w-full items-center justify-between md:w-auto md:justify-start md:gap-8">
-        {navItems.map(({ label, href }) => (
-          <Link
-            key={href}
-            href={href}
-            className="group relative inline-block text-sm tracking-widest uppercase text-foreground-muted transition-colors duration-500 ease-in hover:text-foreground focus:text-foreground md:text-base"
-          >
-            {label}
-            <span
-              className="absolute bottom-0 left-[0.1em] right-[0.1em] block h-px origin-left scale-x-0 bg-foreground/90 transition-[transform] duration-500 ease-in group-hover:scale-x-100"
-              aria-hidden
-            />
-          </Link>
-        ))}
+        {navItems.map(({ label, href }) => {
+          const isActive = pathname === href || pathname.startsWith(href + "/");
+          return (
+            <Link
+              key={href}
+              href={href}
+              className={`group relative inline-block text-sm tracking-widest uppercase transition-colors duration-500 ease-in md:text-base ${
+                isActive
+                  ? "text-foreground"
+                  : "text-foreground-muted hover:text-foreground focus:text-foreground"
+              }`}
+            >
+              {label}
+              <span
+                className={`absolute bottom-0 left-0 right-0 block h-px bg-foreground/90 transition-[transform] duration-500 ease-in ${
+                  isActive ? "origin-left scale-x-100" : "origin-left scale-x-0 group-hover:scale-x-100"
+                }`}
+                aria-hidden
+              />
+            </Link>
+          );
+        })}
       </nav>
     </header>
   );

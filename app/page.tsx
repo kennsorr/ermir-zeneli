@@ -1,9 +1,12 @@
 import { TriptychHero } from "@/components/TriptychHero";
+import { HomePageClient } from "@/components/HomePageClient";
 
 export default function HomePage() {
   return (
-    <main className="relative h-screen overflow-hidden">
-      <TriptychHero />
-    </main>
+    <HomePageClient>
+      <main className="relative h-[100dvh] w-full overflow-hidden">
+        <TriptychHero />
+      </main>
+    </HomePageClient>
   );
 }
