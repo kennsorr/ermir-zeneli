@@ -104,7 +104,7 @@ export function TriptychPanel({
   const handleClick = useCallback(
     (e: React.MouseEvent) => {
       if (progress.get() === 1) return;
-      if (e.pointerType !== "mouse") return; /* touch/pen: let link navigate */
+      if ((e.nativeEvent as PointerEvent).pointerType !== "mouse") return; /* touch/pen: let link navigate */
       e.preventDefault();
       triggerHoverState();
     },
