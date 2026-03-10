@@ -29,9 +29,10 @@ export default function GalleryPage() {
             href={instagramProfileUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="transition-colors hover:text-foreground"
+            className="inline-flex items-center gap-1.5 transition-colors hover:text-foreground"
           >
             See more on Instagram
+            <span className="inline-block text-[0.9em]" aria-hidden>↗</span>
           </a>
         </p>
       </div>

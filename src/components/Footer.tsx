@@ -17,7 +17,7 @@ export function Footer() {
           href="https://www.sorrell.info"
           target="_blank"
           rel="noopener noreferrer"
-          className="underline decoration-foreground/50 underline-offset-2 transition-colors hover:text-foreground hover:decoration-foreground/70"
+          className="text-white underline decoration-white/60 underline-offset-2 transition-colors hover:decoration-white"
         >
           sorrell.info
         </a>
