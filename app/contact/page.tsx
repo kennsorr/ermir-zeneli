@@ -1,8 +1,8 @@
-import { PAGE_MAIN_CLASS, PAGE_CONTENT_CLASS_NARROW, PAGE_TITLE_CLASS } from "@/lib/layout";
+import { PAGE_MAIN_CLASS, PAGE_CONTENT_CLASS, PAGE_TITLE_WITH_DESC_CLASS, PAGE_DESC_CLASS } from "@/lib/layout";
 
 export const metadata = {
   title: "Contact",
-  description: "Get in touch with Ermir Zeneli — Instagram, email, WhatsApp.",
+  description: "Get in touch with Ermir Zeneli — Instagram, email. Business and partnership inquiries.",
 };
 
 export default function ContactPage() {
@@ -17,19 +17,18 @@ export default function ContactPage() {
       handle: "ermir45@gmail.com",
       href: "mailto:ermir45@gmail.com",
     },
-    {
-      label: "WhatsApp",
-      handle: "+355 69 299 5946",
-      href: "https://wa.me/355692995946",
-    },
+    // WhatsApp hidden for now: +355 69 299 5946, https://wa.me/355692995946
   ] as const;
 
   return (
     <main className={PAGE_MAIN_CLASS}>
-      <div className={PAGE_CONTENT_CLASS_NARROW}>
-        <h1 className={PAGE_TITLE_CLASS}>
+      <div className={PAGE_CONTENT_CLASS}>
+        <h1 className={PAGE_TITLE_WITH_DESC_CLASS}>
           Contact
         </h1>
+        <p className={PAGE_DESC_CLASS}>
+          Reach out for business and partnership inquiries.
+        </p>
         <ul className="mt-[35px] flex flex-col gap-8 font-sans md:gap-10">
           {links.map(({ label, handle, href }) => (
             <li key={label}>

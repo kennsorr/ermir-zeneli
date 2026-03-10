@@ -10,4 +10,12 @@ export const PAGE_CONTENT_CLASS_NARROW =
   "mx-auto w-full max-w-5xl px-6 md:px-8 lg:px-12";
 
 export const PAGE_TITLE_CLASS =
-  "font-display text-[2.5rem] tracking-tight";
+  "font-display text-[2.3rem] tracking-tight";
+
+/** Title when a short description sits under it (Gallery, Contact) — same size, shared spacing */
+export const PAGE_TITLE_WITH_DESC_CLASS =
+  "font-display text-[2.3rem] tracking-tight";
+
+/** Single-line description under page title — tighter top margin on mobile */
+export const PAGE_DESC_CLASS =
+  "mt-3 font-sans text-base tracking-wide text-foreground-muted md:mt-6 md:text-lg";
