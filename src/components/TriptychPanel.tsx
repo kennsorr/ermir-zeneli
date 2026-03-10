@@ -52,7 +52,7 @@ export function TriptychPanel({
   const lineTop = useTransform(progress, (v) => `${v * 100}%`);
   const lineOpacity = useTransform(progress, [0, 0.02], [0, 1]); // hidden at top when not animating
   const hoverClipPath = useTransform(progress, (v) => `inset(${(1 - v) * 100}% 0 0 0)`);
-  /** First panel: base zoom 1.2; others: 1. Hover adds slight scale on top. */
+  /** First panel: base zoom 1.2; center: 1; right: 1. Hover adds slight scale on top. (Center zoom-out is done via wrapper on mobile only.) */
   const baseZoom = panelIndex === 0 ? 1.2 : 1;
   const scale = useTransform(progress, [0, 1], [baseZoom, baseZoom * 1.03]);
 
@@ -100,10 +100,11 @@ export function TriptychPanel({
   /* When reduced motion, second tap = navigate (progress stays at 1 so we don't prevent). */
   const isRevealed = reduceMotion ? isHovered : true;
 
-  /* Mobile: first tap = wipe/reveal, second tap = navigate. */
+  /* Only intercept mouse: first click = reveal, second = navigate. Touch/pen always navigate on first tap. */
   const handleClick = useCallback(
     (e: React.MouseEvent) => {
       if (progress.get() === 1) return;
+      if (e.pointerType !== "mouse") return; /* touch/pen: let link navigate */
       e.preventDefault();
       triggerHoverState();
     },
@@ -112,8 +113,8 @@ export function TriptychPanel({
 
   const handleTouchEnd = useCallback(
     (e: React.TouchEvent) => {
+      /* Only trigger reveal; do not preventDefault so the link navigates on first tap */
       if (progress.get() === 1) return;
-      e.preventDefault();
       triggerHoverState();
     },
     [progress, triggerHoverState]
@@ -129,9 +130,9 @@ export function TriptychPanel({
       onTouchEnd={handleTouchEnd}
       aria-label={`${label} — go to ${href}`}
     >
-      {/* Panel label — fades in towards end of load; visible immediately when reduced motion */}
+      {/* Panel label — fades in towards end of load; centered at bottom of section */}
       <motion.div
-        className="absolute bottom-4 left-4 z-30 inline-block"
+        className="absolute bottom-4 left-1/2 z-30 -translate-x-1/2"
         style={{ opacity: reduceMotion ? 1 : labelOpacity }}
       >
         <motion.span
@@ -161,16 +162,29 @@ export function TriptychPanel({
         className="absolute inset-0 origin-center"
         style={{ scale, y: panelIndex === 0 ? -63 : 0 }}
       >
+        {/* Center panel on mobile only: larger image area scaled down to fit = zoomed-out background, still fills 100% (no edges/letterboxing) */}
+        <div
+          className={
+            panelIndex === 1
+              ? "absolute left-1/2 top-1/2 w-[120%] h-[120%] -translate-x-1/2 -translate-y-1/2 origin-center overflow-hidden max-md:scale-[0.833] md:scale-100 md:w-full md:h-full md:left-0 md:top-0 md:translate-x-0 md:translate-y-0"
+              : "relative h-full w-full"
+          }
+        >
         {/* Default image — always visible underneath; first panel slightly brighter to reduce darkness; first panel anchored to bottom so bottom of image is visible */}
         <Image
           src={defaultSrc}
           alt=""
           fill
           sizes="33vw"
-          className="object-cover"
+          className={
+            panelIndex === 0
+              ? "object-cover max-md:[object-position:calc(50%-20px)_bottom] md:[object-position:center_bottom]"
+              : panelIndex === 2
+                ? "object-cover max-md:[object-position:calc(50%+50px)_center]"
+                : "object-cover"
+          }
           unoptimized={unoptimizedImage}
           style={{
-            ...(panelIndex === 0 && { objectPosition: "center bottom" }),
             filter:
               panelIndex === 0
                 ? grayscaleFilter
@@ -197,10 +211,15 @@ export function TriptychPanel({
             alt=""
             fill
             sizes="33vw"
-            className="object-cover"
+            className={
+              panelIndex === 0
+                ? "object-cover max-md:[object-position:calc(50%-20px)_bottom] md:[object-position:center_bottom]"
+                : panelIndex === 2
+                  ? "object-cover max-md:[object-position:calc(50%+50px)_center]"
+                  : "object-cover"
+            }
             unoptimized={unoptimizedImage}
             style={{
-              ...(panelIndex === 0 && { objectPosition: "center bottom" }),
               filter: grayscaleFilter
                 ? "grayscale(1) contrast(1.12) brightness(1.06)"
                 : "contrast(1.12) brightness(1.06)",
@@ -208,6 +227,7 @@ export function TriptychPanel({
             onError={() => setHoverImageError(true)}
           />
         </motion.div>
+        </div>
       </motion.div>
 
       {/* Black overlay — slides down (left/right panels) or up (center) to reveal image; hidden when no load sequence */}
