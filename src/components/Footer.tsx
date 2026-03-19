@@ -14,7 +14,7 @@ export function Footer() {
       <p className="font-display text-xs font-semibold uppercase tracking-wide text-foreground/75">
         Website created by{" "}
         <a
-          href="https://www.sorrell.info"
+          href="https://consulting.sorrell.info"
           target="_blank"
           rel="noopener noreferrer"
           className="text-white underline decoration-white/60 underline-offset-2 transition-colors hover:decoration-white"
