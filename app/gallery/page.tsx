@@ -1,10 +1,28 @@
+import type { Metadata } from "next";
 import { galleryItems, instagramProfileUrl } from "@/content/gallery";
 import { GalleryItem } from "@/components/GalleryItem";
 import { PAGE_MAIN_CLASS, PAGE_CONTENT_CLASS, PAGE_TITLE_WITH_DESC_CLASS, PAGE_DESC_CLASS } from "@/lib/layout";
+import { DEFAULT_OG_IMAGE_PATH, SITE_NAME, absoluteUrl } from "@/lib/seo";
 
-export const metadata = {
+const galleryDescription =
+  "Ermir Zeneli — gallery of editorial and fashion work. Milan, Paris, Dubai. See more on Instagram.";
+
+export const metadata: Metadata = {
   title: "Gallery",
-  description: "Ermir Zeneli — gallery of editorial and fashion work. See more on Instagram.",
+  description: galleryDescription,
+  alternates: { canonical: "/gallery" },
+  openGraph: {
+    title: `Gallery | ${SITE_NAME}`,
+    description: galleryDescription,
+    url: absoluteUrl("/gallery"),
+    images: [{ url: absoluteUrl(DEFAULT_OG_IMAGE_PATH), alt: `${SITE_NAME} — gallery preview` }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `Gallery | ${SITE_NAME}`,
+    description: galleryDescription,
+    images: [absoluteUrl(DEFAULT_OG_IMAGE_PATH)],
+  },
 };
 
 export default function GalleryPage() {
@@ -20,7 +38,7 @@ export default function GalleryPage() {
 
         <div className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {galleryItems.map((item, index) => (
-            <GalleryItem key={index} image={item.image} url={item.url} />
+            <GalleryItem key={index} image={item.image} url={item.url} alt={item.alt} />
           ))}
         </div>
 

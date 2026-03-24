@@ -1,11 +1,13 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 import dynamic from "next/dynamic";
 import { Playfair_Display, IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { JsonLd } from "@/components/JsonLd";
 import { GA_MEASUREMENT_ID } from "@/lib/gtag";
+import { DEFAULT_DESCRIPTION, DEFAULT_OG_IMAGE_PATH, SITE_NAME, absoluteUrl } from "@/lib/seo";
 
 const Analytics = dynamic(
   () => import("@/components/Analytics").then((m) => ({ default: m.Analytics })),
@@ -25,14 +27,32 @@ const sans = IBM_Plex_Sans({
   display: "swap",
 });
 
+export const viewport: Viewport = {
+  themeColor: "#000000",
+  width: "device-width",
+  initialScale: 1,
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://ermirzeneli.com"),
   title: {
-    default: "Ermir Zeneli",
+    default: `${SITE_NAME} — Fashion model & editorial portfolio`,
     template: "%s | Ermir Zeneli",
   },
-  description:
-    "Ermir Zeneli — male model. Editorial, high-fashion portfolio. Cinematic imagery and premium representation.",
+  description: DEFAULT_DESCRIPTION,
+  applicationName: SITE_NAME,
+  authors: [{ name: SITE_NAME, url: "https://ermirzeneli.com" }],
+  creator: SITE_NAME,
+  keywords: [
+    "Ermir Zeneli",
+    "fashion model",
+    "male model",
+    "editorial model",
+    "Dubai model",
+    "Milan fashion week",
+    "Paris fashion week",
+    "modeling portfolio",
+  ],
   icons: {
     icon: [
       { url: "/images/favicon-pack/favicon.ico", sizes: "any" },
@@ -53,17 +73,24 @@ export const metadata: Metadata = {
     ],
   },
   openGraph: {
-    title: "Ermir Zeneli",
-    description:
-      "Ermir Zeneli — male model. Editorial, high-fashion portfolio.",
+    title: `${SITE_NAME} — Fashion model & editorial portfolio`,
+    description: DEFAULT_DESCRIPTION,
     url: "https://ermirzeneli.com",
-    siteName: "Ermir Zeneli",
+    siteName: SITE_NAME,
+    locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: absoluteUrl(DEFAULT_OG_IMAGE_PATH),
+        alt: `${SITE_NAME} — editorial fashion portrait`,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ermir Zeneli",
-    description: "Ermir Zeneli — male model. Editorial, high-fashion portfolio.",
+    title: `${SITE_NAME} — Fashion model & editorial portfolio`,
+    description: DEFAULT_DESCRIPTION,
+    images: [absoluteUrl(DEFAULT_OG_IMAGE_PATH)],
   },
   robots: {
     index: true,
@@ -83,6 +110,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-screen font-sans">
+        <JsonLd />
         {GA_MEASUREMENT_ID && (
           <>
             <Script

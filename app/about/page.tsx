@@ -1,11 +1,33 @@
+import type { Metadata } from "next";
 import { StoryImage } from "@/components/StoryImage";
 import { Measurements } from "@/components/Measurements";
 import { PAGE_MAIN_CLASS, PAGE_CONTENT_CLASS, PAGE_TITLE_CLASS } from "@/lib/layout";
+import { SITE_NAME, absoluteUrl } from "@/lib/seo";
 
-export const metadata = {
+const aboutDescription =
+  "Ermir Zeneli — from Albania to the runways of Milan and Paris, now based in Dubai. Male fashion model and modeling coach.";
+
+export const metadata: Metadata = {
   title: "Story",
-  description:
-    "Ermir Zeneli — from Albania to the runways of Milan and Paris, now based in Dubai. Model and modeling coach.",
+  description: aboutDescription,
+  alternates: { canonical: "/about" },
+  openGraph: {
+    title: `Story | ${SITE_NAME}`,
+    description: aboutDescription,
+    url: absoluteUrl("/about"),
+    images: [
+      {
+        url: absoluteUrl("/images/about/story.png"),
+        alt: `${SITE_NAME} — portrait on the About page`,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `Story | ${SITE_NAME}`,
+    description: aboutDescription,
+    images: [absoluteUrl("/images/about/story.png")],
+  },
 };
 
 export default function AboutPage() {

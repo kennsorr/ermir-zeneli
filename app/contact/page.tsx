@@ -1,8 +1,26 @@
+import type { Metadata } from "next";
 import { PAGE_MAIN_CLASS, PAGE_CONTENT_CLASS, PAGE_TITLE_WITH_DESC_CLASS, PAGE_DESC_CLASS } from "@/lib/layout";
+import { DEFAULT_OG_IMAGE_PATH, SITE_NAME, absoluteUrl } from "@/lib/seo";
 
-export const metadata = {
+const contactDescription =
+  "Contact Ermir Zeneli — Instagram @ermirzeneli, email. Business, bookings, and partnership inquiries.";
+
+export const metadata: Metadata = {
   title: "Contact",
-  description: "Get in touch with Ermir Zeneli — Instagram, email. Business and partnership inquiries.",
+  description: contactDescription,
+  alternates: { canonical: "/contact" },
+  openGraph: {
+    title: `Contact | ${SITE_NAME}`,
+    description: contactDescription,
+    url: absoluteUrl("/contact"),
+    images: [{ url: absoluteUrl(DEFAULT_OG_IMAGE_PATH), alt: `${SITE_NAME} — contact` }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `Contact | ${SITE_NAME}`,
+    description: contactDescription,
+    images: [absoluteUrl(DEFAULT_OG_IMAGE_PATH)],
+  },
 };
 
 export default function ContactPage() {

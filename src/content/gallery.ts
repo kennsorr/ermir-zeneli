@@ -24,6 +24,7 @@ const postUrls = [
 export const galleryItems = postUrls.map((url, i) => ({
   image: `/images/gallery/${i + 1}.png`,
   url,
+  alt: `Ermir Zeneli — editorial fashion photograph ${i + 1}`,
 }));
 
 export const instagramProfileUrl = "https://www.instagram.com/ermirzeneli/";

@@ -7,9 +7,10 @@ import { motion } from "framer-motion";
 type GalleryItemProps = {
   image: string;
   url: string;
+  alt: string;
 };
 
-export function GalleryItem({ image, url }: GalleryItemProps) {
+export function GalleryItem({ image, url, alt }: GalleryItemProps) {
   return (
     <Link
       href={url}
@@ -25,7 +26,7 @@ export function GalleryItem({ image, url }: GalleryItemProps) {
       >
         <Image
           src={image}
-          alt=""
+          alt={alt}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           className="object-cover transition-[filter] duration-400 group-hover:brightness-95 group-hover:contrast-[1.02]"
